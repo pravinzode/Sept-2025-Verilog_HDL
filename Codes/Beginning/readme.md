@@ -10,5 +10,12 @@ module hello_world;
   end
 endmodule
 ---
-## 📜 Intger declaration and display
+## 📜 Hello World    
+```verilog
+// File: hello_world.v
+module hello_world;
+  initial begin
+  $display("Hello World\n");
+  end
+endmodule
 
