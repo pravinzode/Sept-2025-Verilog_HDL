@@ -1,7 +1,6 @@
 # Basic Codes  
 
 ---
-
 ## 📜 Hello World    
 ```verilog
 // File: hello_world.v
@@ -10,4 +9,6 @@ module hello_world;
   $display("Hello World\n");
   end
 endmodule
- 
+---
+## 📜 Intger declaration and display
+
