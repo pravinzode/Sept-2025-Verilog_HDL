@@ -1,7 +1,4 @@
-# Hello World in Verilog/SystemVerilog  
-
-This example illustrates a **basic Verilog/SystemVerilog program**.  
-It demonstrates how to declare variables, assign values, and display output using `$display`.  
+# Basic Codes  
 
 ---
 
@@ -10,16 +7,15 @@ It demonstrates how to declare variables, assign values, and display output usin
 
 ---
 
-## 📜 Code  
+## 📜 Integer Declaration and print value   
 ```verilog
 // File: hello_world.v
 module hello_world;
   int a;   // integer variable (SystemVerilog)
-
   initial begin
-    a = 10;  
-    $display("My first program\t Hello World\nCDAC");
-    $display("a = %0d", a);
+  a = 10;  
+  $display("My first program display program \n");
+  $display("a = %0d", a);
   end
 endmodule
  
