@@ -2,11 +2,6 @@
 
 ---
 
-## 📂 File  
-- `hello_world.v`  
-
----
-
 ## 📜 Integer Declaration and print value   
 ```verilog
 // File: hello_world.v
