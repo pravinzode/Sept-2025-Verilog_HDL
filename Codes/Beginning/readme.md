@@ -2,15 +2,12 @@
 
 ---
 
-## 📜 Integer Declaration and print value   
+## 📜 Hello World    
 ```verilog
 // File: hello_world.v
 module hello_world;
-  int a;   // integer variable (SystemVerilog)
   initial begin
-  a = 10;  
-  $display("My first program display program \n");
-  $display("a = %0d", a);
+  $display("Hello World\n");
   end
 endmodule
  
