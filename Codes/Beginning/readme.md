@@ -32,7 +32,7 @@ module testbench;
     $display ("time_c 	= %0t", time_c);
   end
 endmodule
-
+```
 ---
 📜 String Declaration and Display
 ```verilog 
@@ -52,3 +52,4 @@ module testbench;
     $display ("str3 = %s", str3);
   end
 endmodule
+```
