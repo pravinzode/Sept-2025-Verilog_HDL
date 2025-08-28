@@ -8,6 +8,7 @@ module hello_world;
     $display("Hello World\n");
   end
 endmodule
+# 
 ## 📜 Integer Declaration and Display
 ```verilog
 Copy code
