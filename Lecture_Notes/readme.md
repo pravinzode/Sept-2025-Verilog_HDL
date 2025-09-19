@@ -14,7 +14,7 @@ Each lecture is listed below with a short description.
 | [Lecture 05 - FSM.pdf](Lecture05-FSM.pdf) | Finite State Machines, Mealy vs. Moore models. |
 
 
-| Lecture No.|  File |Description  |
+| Lecture No. & File |Description  |
 |--------------------|------------|
-|00||Lecture-00 Introdcution | What is VLSI, Evolution of VLSI, Microprocessor, Major domains of VLSI, Skills required, Carrers in VLSI |
-|00||Lecture-00 Introdcution | What is VLSI, Evolution of VLSI, Microprocessor, Major domains of VLSI, Skills required, Carrers in VLSI |
+|[Lecture-00 Introdcution] (Lecture-00 Inroduction.pdf)| What is VLSI, Evolution of VLSI, Microprocessor, Major domains of VLSI, Skills required, Carrers in VLSI |
+
