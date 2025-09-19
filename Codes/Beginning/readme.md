@@ -53,3 +53,19 @@ module testbench;
   end
 endmodule
 ```
+📜 Addition of two numbers
+```
+module addition_demo;
+    integer a, b, sum;   // all 32-bit signed
+    initial begin
+        // Assign values
+        a = 25;
+        b = 17;
+        sum = a + b;
+        // Print result
+        $display("Addition of %0d and %0d is %0d", a, b, sum);
+        $finish;
+    end
+endmodule
+```
+
