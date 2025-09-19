@@ -16,5 +16,5 @@ Each lecture is listed below with a short description.
 
 | Lecture No. & File |Description  |
 |--------------------|------------|
-|[Lecture-00 Introdcution] (Lecture-00 Inroduction.pdf)| What is VLSI, Evolution of VLSI, Microprocessor, Major domains of VLSI, Skills required, Carrers in VLSI |
+|[Lecture-00 Introdcution] (Lecture_Notes/Lecture-00 Inroduction.pdf)| What is VLSI, Evolution of VLSI, Microprocessor, Major domains of VLSI, Skills required, Carrers in VLSI |
 
