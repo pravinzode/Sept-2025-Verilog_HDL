@@ -68,4 +68,22 @@ module addition_demo;
     end
 endmodule
 ```
+📜 Reduction Operator 
+```
+module reduction_example;
+  reg [3:0] a;   // 4-bit vector
+  initial begin
+    a = 4'b1101;   // Binary value = 13
+
+    $display("a       = %b", a);
+    $display("&a      = %b (AND all bits)", &a);
+    $display("|a      = %b (OR all bits)", |a);
+    $display("^a      = %b (XOR all bits)", ^a);
+    $display("~&a     = %b (NAND all bits)", ~&a);
+    $display("~|a     = %b (NOR all bits)", ~|a);
+    $display("~^a     = %b (XNOR all bits)", ~^a);
+  end
+endmodule
+
+```
 
