@@ -78,6 +78,49 @@ module and_gate_tb;
 endmodule
 ```
 ---
+## 📜 AND_Gate Testbench using for_loop (  
+```
+`timescale 1ns/1ps
+
+module and_gate_tb;
+
+    reg a, b;
+    wire y;
+
+    integer i; // loop variable
+
+    // Instantiate the AND gate
+    and_gate uut (
+        .a(a),
+        .b(b),
+        .y(y)
+    );
+
+    initial begin
+        $display("Time\t a b | y");
+        $monitor("%0t\t %b %b | %b", $time, a, b, y);
+
+        // Test all possible combinations using a for loop
+        for (i = 0; i < 4; i = i + 1) begin
+            {a, b} = i;  // assign loop index to inputs a and b
+            #10;          // wait for 10 time units
+        end
+
+        $display("All test cases completed");
+        $finish;
+    end
+
+endmodule
+//integer i; → loop variable from 0 to 3 (since 2 inputs → 4 combinations).
+//{a, b} = i; → assigns the binary value of i to a and b.
+//i = 0 → 00
+//i = 1 → 01
+//i = 2 → 10
+//i = 3 → 11
+//#10; → wait 10 time units between each input change.
+//$monitor → prints output automatically whenever a, b, or y changes.
+```
+---
 ## 📜 Self Checking Testbench
 ```
 //-----Design unit------------------------------------------------------- 
