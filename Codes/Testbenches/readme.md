@@ -34,6 +34,7 @@ module and_gate_tb;
 
 endmodule
 ```
+```
 // Code for AND Gate using data flow model 
 module and_gate(
     input a,
