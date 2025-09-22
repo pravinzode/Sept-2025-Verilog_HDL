@@ -78,7 +78,7 @@ module and_gate_tb;
 endmodule
 ```
 ---
-## 📜 AND_Gate Testbench using for_loop (  
+## 📜 AND_Gate Testbench using for_loop  
 ```
 `timescale 1ns/1ps
 
