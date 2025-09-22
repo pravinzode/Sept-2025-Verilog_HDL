@@ -2,10 +2,20 @@
 
 ```
 ## 📜 AND_Gate Testbench
+
+// Code for AND Gate using data flow model 
+module and_gate(
+    input a,
+    input b,
+    output y
+);
+    assign y = a & b;
+endmodule
+
+//---- Testbench for AND_Gate
+
 `timescale 1ns/1ps
-
 module and_gate_tb;
-
     // Testbench signals
     reg a, b;
     wire y;
@@ -34,20 +44,6 @@ module and_gate_tb;
 
 endmodule
 ```
-```
-// Code for AND Gate using data flow model 
-module and_gate(
-    input a,
-    input b,
-    output y
-);
-    assign y = a & b;
-endmodule
-
-//---- Testbench for AND_Gate
-
-```
-
 ---
 ## 📜 Self Checking Testbench
 ```
