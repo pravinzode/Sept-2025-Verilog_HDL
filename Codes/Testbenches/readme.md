@@ -1,6 +1,43 @@
 # Testbenches 
 
 ---
+## 📜 $display and $monitor difference 
+```
+`timescale 1ns/1ps
+
+module display_monitor_example;
+
+    reg a, b;
+    wire y;
+
+    // Simple AND operation
+    assign y = a & b;
+
+    initial begin
+        // Using $display
+        $display("Using $display:");
+        a = 0; b = 0; #5;
+      $display("Display Time=%0t, a=%b, b=%b, y=%b", $time, a, b, y);
+
+        a = 0; b = 1; #5;
+      $display("Display Time=%0t, a=%b, b=%b, y=%b", $time, a, b, y);
+
+        a = 1; b = 0; #5;
+      $display("Display Time=%0t, a=%b, b=%b, y=%b", $time, a, b, y);
+
+        a = 1; b = 1; #5;
+      $display("Display Time=%0t, a=%b, b=%b, y=%b", $time, a, b, y);
+    end
+
+    initial begin
+        // Using $monitor
+        $monitor("Using $monitor: Time=%0t, a=%b, b=%b, y=%b", $time, a, b, y);
+    end
+
+endmodule
+
+```
+---
 ## 📜 AND_Gate Testbench
 ```
 // Code for AND Gate using data flow model 
