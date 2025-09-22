@@ -1,7 +1,7 @@
 # Generate Statement Codes
 ---
 ## 📜 4-bit AND using for_generate
-```
+```verilog
 module and4bit (
     input  [3:0] a,
     input  [3:0] b,
@@ -17,7 +17,7 @@ endmodule
 ```
 ---
 ## 📜 N-bit Ripple Carry Adder using for_generate
-```
+```verilog
 module ripple_adder #(parameter N = 4) (
     input  [N-1:0] a, b,
     input          cin,
