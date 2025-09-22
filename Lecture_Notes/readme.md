@@ -8,5 +8,5 @@
 |[Lecture-02 Importance of HDL.pdf](https://github.com/pravinzode/Sept-2025-Verilog_HDL/blob/main/Lecture_Notes/Lecture-02%20Importance%20of%20HDL.pdf)|Traditional design, design abstraction, modern digital design flow, importance of HDL , Comparison of HDLs|
 |[Lecture-03 Language Essentials ](https://github.com/pravinzode/Sept-2025-Verilog_HDL/blob/main/Lecture_Notes/Lecture-03%20Language%20Essentials.pdf)|Lexical Conventions, Comments, Number Specifications, Data types|
 |[Lecture-04 Module Getting Started.pdf](https://github.com/pravinzode/Sept-2025-Verilog_HDL/blob/main/Lecture_Notes/Lecture-04%20Module%20Getting%20Started.pdf)|Introduction about module, ports, signals, operators, assign statement and exercises|
-|[Lecture-04A Gate Level Modeling]|(https://github.com/pravinzode/Sept-2025-Verilog_HDL/blob/main/Lecture_Notes/Lecture-04A%20Gate%20Level%20Modeling.pdf)|Gate Level Modeling concepts|
+|[Lecture-04A Gate Level Modeling](https://github.com/pravinzode/Sept-2025-Verilog_HDL/blob/main/Lecture_Notes/Lecture-04A%20Gate%20Level%20Modeling.pdf)Gate Level Modeling concepts|
 |[Lecture-04B Vectors.pdf]|(https://github.com/pravinzode/Sept-2025-Verilog_HDL/blob/main/Lecture_Notes/Lecture-04B%20Vectors.pdf)|Introduction to Vectors,illustrative examples|
