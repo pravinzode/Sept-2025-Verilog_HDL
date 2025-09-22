@@ -10,8 +10,7 @@
 |[Lecture-04 Module Getting Started.pdf](https://github.com/pravinzode/Sept-2025-Verilog_HDL/blob/main/Lecture_Notes/Lecture-04%20Module%20Getting%20Started.pdf)|Introduction about module, ports, signals, operators, assign statement and exercises|
 |[Lecture-04A Gate Level Modeling](https://github.com/pravinzode/Sept-2025-Verilog_HDL/blob/main/Lecture_Notes/Lecture-04A%20Gate%20Level%20Modeling.pdf)|Gate Level Modeling concepts|
 |[Lecture-04B Vectors.pdf](https://github.com/pravinzode/Sept-2025-Verilog_HDL/blob/main/Lecture_Notes/Lecture-04B%20Vectors.pdf)|Introduction to Vectors,illustrative examples|
-|[Lecture-05 Structural Design.pdf](https://github.com/pravinzode/Sept-2025-Verilog_HDL/blob/main/Lecture_Notes/Lecture-05%20Structural%20Design.pdf)
-|Structural Design concept, Adder example|
+|[Lecture-05 Structural Design.pdf](https://github.com/pravinzode/Sept-2025-Verilog_HDL/blob/main/Lecture_Notes/Lecture-05%20Structural%20Design.pdf)|Structural Design concept, Adder example|
 |[Lecture-06 Testbenches.pdf](https://github.com/pravinzode/Sept-2025-Verilog_HDL/blob/main/Lecture_Notes/Lecture-06%20Testbenches.pdf)|Testbench Concepts,Exercises using case, for, always, self checking testbenches|
 
 
