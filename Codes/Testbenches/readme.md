@@ -2,7 +2,7 @@
 ---
 ## 📜 Self Checking Testbench
 ```
-//Design unit 
+//-----Design unit------------------------------------------------------- 
 module and2 (
     input  wire a,
     input  wire b,
@@ -10,7 +10,7 @@ module and2 (
 );
     assign y = a & b;
 endmodule
-//Testbench
+//-------Testbench--------------------------------------------------------
 `timescale 1ns/1ps
 
 module tb_and2;
