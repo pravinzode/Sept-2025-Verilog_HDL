@@ -1,4 +1,52 @@
 # Testbenches 
+
+---
+## 📜 AND_Gate Testbench
+`timescale 1ns/1ps
+
+module and_gate_tb;
+
+    // Testbench signals
+    reg a, b;
+    wire y;
+
+    // Instantiate the AND gate
+    and_gate uut (
+        .a(a),
+        .b(b),
+        .y(y)
+    );
+
+    // Stimulus
+    initial begin
+        $display("Time\t a b | y");
+        $monitor("%0t\t %b %b | %b", $time, a, b, y);
+
+        // Apply test vectors
+        a = 0; b = 0; #10;
+        a = 0; b = 1; #10;
+        a = 1; b = 0; #10;
+        a = 1; b = 1; #10;
+
+        $display("Test completed");
+        $finish;
+    end
+
+endmodule
+```
+// Code for AND Gate using data flow model 
+module and_gate(
+    input a,
+    input b,
+    output y
+);
+    assign y = a & b;
+endmodule
+
+//---- Testbench for AND_Gate
+
+```
+
 ---
 ## 📜 Self Checking Testbench
 ```
