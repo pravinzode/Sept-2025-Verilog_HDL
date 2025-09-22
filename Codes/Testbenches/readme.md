@@ -111,6 +111,7 @@ module and_gate_tb;
     end
 
 endmodule
+//-------------Explanation------------------------------------------------
 //integer i; → loop variable from 0 to 3 (since 2 inputs → 4 combinations).
 //{a, b} = i; → assigns the binary value of i to a and b.
 //i = 0 → 00
