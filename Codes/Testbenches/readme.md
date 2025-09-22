@@ -21,11 +21,7 @@ module and_gate_tb;
     wire y;
 
     // Instantiate the AND gate
-    and_gate uut (
-        .a(a),
-        .b(b),
-        .y(y)
-    );
+    and_gate uut (.a(a),.b(b),.y(y));
 
     // Stimulus
     initial begin
