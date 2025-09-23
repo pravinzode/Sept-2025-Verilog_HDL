@@ -1,3 +1,7 @@
+
+# Block Statements 
+---
+## 📜 Initial Block 
 ---
 ```verilog
 
