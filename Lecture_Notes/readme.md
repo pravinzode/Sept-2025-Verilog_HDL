@@ -12,5 +12,7 @@
 |[Lecture-04B Vectors.pdf](https://github.com/pravinzode/Sept-2025-Verilog_HDL/blob/main/Lecture_Notes/Lecture-04B%20Vectors.pdf)|Introduction to Vectors,illustrative examples|
 |[Lecture-05 Structural Design.pdf](https://github.com/pravinzode/Sept-2025-Verilog_HDL/blob/main/Lecture_Notes/Lecture-05%20Structural%20Design.pdf)|Structural Design concept, Adder example|
 |[Lecture-06 Testbenches.pdf](https://github.com/pravinzode/Sept-2025-Verilog_HDL/blob/main/Lecture_Notes/Lecture-06%20Testbenches.pdf)|Testbench Concepts,Exercises using case, for, always, self checking testbenches|
+|[Lecture-07 Procedural Assignments.pdf]|(https://github.com/pravinzode/Sept-2025-Verilog_HDL/blob/main/Lecture_Notes/Lecture-07%20Procedural%20Assignments.pdf)|Structured procedures, initial and always blocks, Blocking and Non-Blocking statements, Wait statement, Flow control if-else and case statment |
+
 
 
