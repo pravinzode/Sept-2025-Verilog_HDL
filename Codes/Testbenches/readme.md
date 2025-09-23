@@ -79,7 +79,7 @@ endmodule
 ```
 ---
 ## 📜 AND_Gate Testbench using for_loop  
-```
+```verilog
 `timescale 1ns/1ps
 
 module and_gate_tb;
