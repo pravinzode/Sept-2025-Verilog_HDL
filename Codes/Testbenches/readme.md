@@ -39,7 +39,7 @@ endmodule
 ```
 ---
 ## 📜 AND_Gate Testbench
-```
+```verilog
 // Code for AND Gate using data flow model 
 module and_gate(
     input a,
