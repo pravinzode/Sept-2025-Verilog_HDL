@@ -2,7 +2,7 @@
 
 ---
 ## 📜 $display and $monitor difference 
-```
+```verilog
 `timescale 1ns/1ps
 
 module display_monitor_example;
