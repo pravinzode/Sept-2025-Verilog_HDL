@@ -123,7 +123,7 @@ endmodule
 ```
 ---
 ## 📜 Self Checking Testbench
-```
+```verilog
 //-----Design unit------------------------------------------------------- 
 module and2 (
     input  wire a,
