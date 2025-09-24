@@ -168,5 +168,57 @@ module tb_and2;
     end
   endtask
 endmodule
+---
+## 📜 Testbench using File read and write 
+```verilog
+`timescale 1ns / 1ps
+
+module proc_8bitcomp(input [7:0]a,b , output reg e,l,g);
+always@(*) begin
+       if (a ==b) begin  
+            e=1'b1; l = 1'b0; g = 1'b0;
+       end  
+       else if (a > b) begin  
+            e=1'b0; l = 1'b0; g = 1'b1;
+       end   
+       if (a < b) begin  
+            e=1'b0; l = 1'b1; g = 1'b0;
+       end  
+end
+endmodule
+//--- Testbench-----------------------------------------------------------
+`timescale 1s / 1ms
+//module proc_8bitcomp(input [7:0]a,b , output reg e,l,g);
+module tb_proc8comp;
+reg  [7:0]a,b;
+wire e,l,g;
+proc_8bitcomp DUT(a,b,e,l,g);
+integer i,j,file_handle;
+initial begin
+//$monitor(" %0t  a=%d, b=%d, e=%b l=%b g=%b ",$time, a,b,e,l,g);
+file_handle = $fopen("results.xls", "w");
+        if (file_handle == 0) begin
+            $display("Error: Could not open output file.");
+        end
+        $fdisplay(file_handle, "Time\tA\tB\tA>B\tA<B\tA=B");
+end     
+initial begin 
+for(i = 0; i<256; i = i+1) begin 
+#10;
+    for(j = 0; j <256; j = j+1) begin
+    #10; 
+            a = i;
+            b = j;
+             $fdisplay(file_handle, "%0t\t%d\t%d\t%b\t%b\t%b", $time, a, b, g, l, e);
+      end    
+ end     
+// Close the file
+  $fclose(file_handle);
+  $finish;   
+end
+endmodule
+```
+
+
 
 ```
