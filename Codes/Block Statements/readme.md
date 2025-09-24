@@ -55,5 +55,33 @@ begin
 end
 endmodule
 ```
-
-
+---
+## 📜 Fork-Join  
+---
+```verilog 
+module tb_fork_join;
+  initial begin
+    $display("\n--- Basic fork..join demo ---");
+    $display("time=%0t : before fork", $time);
+    fork
+      begin
+        #5;
+        $display("time=%0t : thread A finished (delay 5)", $time);
+      end
+      begin
+        #2;
+        $display("time=%0t : thread B finished (delay 2)", $time);
+      end
+      begin
+        #8;
+        $display("time=%0t : thread C finished (delay 8)", $time);
+      end
+    join
+// Execution reaches here only after all forked threads complete
+    $display("time=%0t : after join (all threads done)\n", $time);
+    $finish;
+  end
+endmodule
+//----Explanation------------------------------------------------------
+// The three blocks inside fork run concurrently.
+//The join waits for all threads to finish; control continues only after the longest (thread C, #8) completes.
