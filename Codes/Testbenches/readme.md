@@ -220,7 +220,6 @@ end
 endmodule
 ```
 ---
-```
 ## 📜 Testbench using File read and write 
 ```verilog
 // Comparator code test vectors are stored in text file and response generated is stored in text file
