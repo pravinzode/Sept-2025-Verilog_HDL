@@ -203,7 +203,7 @@ file_handle = $fopen("results.xls", "w");
         end
         $fdisplay(file_handle, "Time\tA\tB\tA>B\tA<B\tA=B");
 end     
-initial begin 
+initial betesgin 
 for(i = 0; i<256; i = i+1) begin 
 #10;
     for(j = 0; j <256; j = j+1) begin
@@ -219,3 +219,86 @@ for(i = 0; i<256; i = i+1) begin
 end
 endmodule
 ```
+```
+## 📜 Testbench using File read and write 
+```verilog
+// Comparator code test vectors are stored in text file and response generated is stored in text file
+// store the test input combinations in test_vectors.txt and observe results in test_results.txt
+//-------4 Bit Comparator design module -------------------------
+module Comparator(Y, A, B);
+output reg [2:0]Y;
+input wire [3:0]A ,B;
+always @ (A, B)
+begin
+    if (A==B)
+         Y=3'b010;
+    else if(A<B)
+            Y=3'b001;
+    else if(A>B)
+            Y=3'B100;
+end
+endmodule
+//---------Testbench---------------------------------------------
+`include "Comparator.v"
+`timescale 1ns / 1ps
+
+module tb_comparator();
+wire [2:0]t_Y;
+reg [3:0]t_A,t_B;
+integer stimulus_file; // File handle for reading inputs
+integer response_file; // File handle for writing outputs
+integer scan_count;    // Return value of $fscanf
+Comparator C (.Y(t_Y), .A(t_A), .B(t_B));
+
+initial
+begin
+// Open stimulus file for reading
+        stimulus_file = $fopen("test_vectors.txt", "r"); 
+        if (stimulus_file == 0) begin
+            $display("ERROR: Cannot open test_vectors.txt");
+            $finish;
+        end
+
+        // Open response file for writing
+        response_file = $fopen("test_results.txt", "w");
+        if (response_file == 0) begin
+            $display("ERROR: Cannot open test_results.txt");
+            $finish;
+        end
+
+$display("Start Simulation");
+$fwrite(response_file, "Time(ns)\tA_in\tB_in\tY_out\n"); // Header
+
+
+while (!$feof(stimulus_file)) begin
+    
+            
+            // Read two 8-bit decimal values from the file
+            scan_count = $fscanf(stimulus_file, "%b %b\n", t_A, t_B);
+
+            if (scan_count == 2) begin
+                  #5;                       
+                // Write the stimulus and the resulting output to the results file
+                $fwrite(response_file, "\n %0t\t%b\t%b\t%b", 
+                        $time, t_A, t_B, t_Y);
+            end else if (scan_count != -1) begin
+                // Handle cases where a line might be incomplete
+                $display("Warning: Incomplete line read at time %0t", $time);
+            end
+        end
+ // --- Clean Up ---
+        $display("Test finished. Closing files.");
+        $fclose(stimulus_file);
+        $fclose(response_file);
+        $finish; 
+end
+endmodule
+//--------Explantion -------------------------------------------------------------
+create the notepad file by name test_vectors.txt and save all possible combinations in file as follows : 
+
+ 0000 0000
+ 0000 0001
+ 0000 0010
+ 0000 0011
+ 0000 0100
+
