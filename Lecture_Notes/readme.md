@@ -15,4 +15,5 @@
 |[Lecture-06 Testbenches.pdf](https://github.com/pravinzode/Sept-2025-Verilog_HDL/blob/main/Lecture_Notes/Lecture-06%20Testbenches.pdf)|Testbench Concepts,Exercises using case, for, always, self checking testbenches|
 |[Lecture-07 Procedural Assignments.pdf](https://github.com/pravinzode/Sept-2025-Verilog_HDL/blob/main/Lecture_Notes/Lecture-07%20Procedural%20Assignments.pdf)|Structured procedures, initial and always blocks, Blocking and Non-Blocking statements, Wait statement, Flow control if-else and case statment |
 |[Lecture-08 Examples of Sequential Circuits.pdf](https://github.com/pravinzode/Sept-2025-Verilog_HDL/blob/main/Lecture_Notes/Lecture-08%20Examples%20of%20Sequential%20Circuits.pdf)|D-Latch and D-FF , Reset (Synchronous and Asynchronous), SR Latch, JK Flip-Flop, Shift Registers and Counters |
+|[Lecture-15 User Defined Primitives.pdf](https://github.com/pravinzode/Sept-2025-Verilog_HDL/blob/main/Lecture_Notes/Lecture-15%20User%20Defined%20Primitives.pdf)|User Defined Primitives, Combinational , Sequential UDP, Rules for defining UDP, Examples|
 
