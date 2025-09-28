@@ -79,3 +79,14 @@ module tb_gray_converter;
     end
 endmodule
 ```
+Time  Bin   Gray_assign Gray_struct Gray_func  Match
+----  ----  ----------- ----------- ---------  -----
+  5   0000      0000        0000       0000     YES
+ 10   0001      0001        0001       0001     YES
+ 15   0010      0011        0011       0011     YES
+ 20   0011      0010        0010       0010     YES
+ ...
+ Testbench RESULT: PASS ✅ - All implementations agree.
+```
+
+
