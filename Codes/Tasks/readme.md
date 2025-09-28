@@ -92,3 +92,44 @@ module tb_sum_diff_task;
     end
 endmodule
 ```
+---
+## 📜 Square Task  
+---
+```verilog
+module square_task(
+    input  [3:0] num,
+    output reg [7:0] result );
+
+    // Task definition
+    task compute_square;
+        input [3:0] x;
+        output [7:0] y;
+        begin
+            y = x * x;
+        end
+    endtask
+
+    // Call task in combinational block
+    always @(*) begin
+        compute_square(num, result);
+    end
+
+endmodule
+
+module tb_square_task;
+    reg [3:0] num;
+    wire [7:0] result;
+
+    square_task uut (.num(num), .result(result));
+
+    initial begin
+        num = 3; #10;
+        num = 5; #10;
+        num = 8; #10;
+    end
+
+    initial begin
+        $monitor("time=%0t num=%d square=%d", $time, num, result);
+    end
+endmodule
+```
