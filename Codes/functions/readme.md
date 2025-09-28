@@ -1,5 +1,5 @@
 # Verilog Functions 
-# 4-bit Binary → Gray Code converter in the three modeling styles
+## 4-bit Binary → Gray Code converter in the three modeling styles
 ---
 ## 📜 Dataflow Modeling (using assign) 
 ---
