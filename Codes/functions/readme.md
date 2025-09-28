@@ -55,3 +55,27 @@ module gray_function (
     assign gray = bin2gray(bin);
 endmodule
 ```
+---
+## 📜 Testbench for All Three 
+---
+```verilog
+module tb_gray_converter;
+    reg  [3:0] bin;
+    wire [3:0] gray_df, gray_st, gray_fn;
+
+    // Instantiate all three versions
+    gray_dataflow   u1 (.bin(bin), .gray(gray_df));
+    gray_structural u2 (.bin(bin), .gray(gray_st));
+    gray_function   u3 (.bin(bin), .gray(gray_fn));
+
+    initial begin
+        $display("Bin  | Dataflow Gray | Structural Gray | Function Gray");
+        $display("------------------------------------------------------");
+        for(bin = 0; bin < 16; bin = bin + 1) begin
+            #5 $display("%b  |     %b        |      %b        |      %b", 
+                         bin, gray_df, gray_st, gray_fn);
+        end
+        $finish;
+    end
+endmodule
+```
