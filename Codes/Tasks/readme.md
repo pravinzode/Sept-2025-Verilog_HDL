@@ -44,4 +44,51 @@ module tb_bin2gray_task;
 
     initial $monitor("time=%0t bin=%b gray=%b", $time, bin, gray);
 endmodule
+```
+---
+## 📜 Sum_Diff Task 
+---
+```verilog
+module sum_diff_task(
+    input  [3:0] a,
+    input  [3:0] b,
+    output reg [4:0] sum,
+    output reg [4:0] diff
+);
 
+    // Task definition
+    task compute;
+        input  [3:0] x, y;
+        output [4:0] s, d;
+        begin
+            s = x + y;
+            d = x - y;
+        end
+    endtask
+
+    // Call task inside always block
+    always @(*) begin
+        compute(a, b, sum, diff);
+    end
+
+endmodule
+
+// Testbench for sum_diff_task
+
+module tb_sum_diff_task;
+    reg [3:0] a, b;
+    wire [4:0] sum, diff;
+
+    sum_diff_task uut (.a(a), .b(b), .sum(sum), .diff(diff));
+
+    initial begin
+        a = 4; b = 3; #10;
+        a = 7; b = 2; #10;
+        a = 9; b = 5; #10;
+    end
+
+    initial begin
+        $monitor("time=%0t a=%d b=%d sum=%d diff=%d", $time, a, b, sum, diff);
+    end
+endmodule
+```
