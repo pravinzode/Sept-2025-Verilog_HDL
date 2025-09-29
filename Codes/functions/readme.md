@@ -83,6 +83,39 @@ endmodule
 //Structural (gate-level) — explicit XOR gate instantiations.
 //Function — modular, reusable, same hardware but nicer when logic is reused.
 ```
+---
+## 📜 Function Calling Function 
+## Cube function using Square function 
+---
+```verilog
+module Cube_Function_Example;
 
-
-
+    function [7:0] square;
+        input [3:0] a;
+        begin
+            square = a * a; // Return value is assigned to the function name
+        end
+    endfunction
+    
+    function [15:0] cube;
+        input [3:0] b;
+        reg [7:0] b_sq;
+        begin
+            // CALLING FUNCTION 2 INSIDE FUNCTION 1
+           // b_sq = square(b);
+            
+            cube = square(b) * b; // b^3 = b^2 * b
+        end
+    endfunction
+    
+    // Test the function
+    initial begin
+        $display("The cube of 2 is: %0d", cube(4'd2)); // Output: The cube of 3 is: 27
+        $display("The cube of 3 is: %0d", cube(6'd3)); // Output: The cube of 5 is: 125
+        $display("The cube of 4 is: %0d", cube(4'd4)); // Output: The cube of 3 is: 27
+        $display("The cube of 5 is: %0d", cube(4'd5)); // Output: The cube of 3 is: 27
+        $display("The cube of 6 is: %0d", cube(4'd6)); // Output: The cube of 3 is: 27
+        $display("The cube of 7 is: %0d", cube(4'd7)); // Output: The cube of 3 is: 27
+    end
+endmodule
+```
