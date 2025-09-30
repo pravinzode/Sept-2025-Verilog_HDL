@@ -338,3 +338,72 @@ module width_tb;
   end
 endmodule
 ```
+---
+## 📜 $setup and $hold in one module 
+```verilog
+module dff_module(
+input wire clk,
+input wire d,
+output reg q
+);
+reg setupVoilation;
+reg holdVoilation;
+
+specify
+(d => q) = 1;
+$setup(d, posedge clk, 2, setupVoilation);
+$hold( posedge clk,d , 2, holdVoilation);
+endspecify
+
+always @(posedge clk) begin
+q <= d;
+end
+
+endmodule
+
+module tb_setup;
+reg clk;
+reg d;
+wire q;
+
+dff_module dff1(clk, d, q);
+
+always @ (dff1.setupVoilation) begin
+$display("Setup Timing Voilation %0t \t %b",$time, dff1.setupVoilation);
+end
+
+always @ (dff1.holdVoilation) begin
+$display("Hold Timing Voilation %0t \t %b",$time, dff1.holdVoilation);
+end
+
+initial begin
+clk = 0;
+forever #5 clk = ~clk;
+end
+
+initial begin
+d = 0;
+$display("-------------Start Simulation--------------");
+#4 d = 1;
+#12 d = 0;
+
+#6 d = 1;
+#12 d = 0;
+
+#3 d = 1;
+#9 d = 0;
+
+#4 d = 1;
+#10 d = 0;
+
+#20 $finish;
+$display("-------------End Simulation--------------");
+end
+
+initial begin
+$monitor("Time::%0t \t clk::%b \t d::%b \t q::%b \t Setup Time Voilation::%b \t Hold Time Voilation::%b", $time, clk, d, q, dff1.setupVoilation, dff1.holdVoilation );
+end
+endmodule
+```
+
+
