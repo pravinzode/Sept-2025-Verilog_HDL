@@ -87,4 +87,96 @@ module tb_moore_detector;
   end
 
 endmodule
+```
+---
+## 📜 Moore 101/110 Detector ( overlapping allowed) 
+---
+```verilog
+`timescale 1ns/100ps
 
+// State definitions using macros
+`define reset   3'b000
+`define got1    3'b001
+`define got10   3'b010
+`define got11   3'b011
+`define got101  3'b100
+`define got110  3'b101
+
+module moore_detector_101_110 (
+    input x, rst, clk,
+    output z
+);
+  reg [2:0] current;
+
+  // State transition
+  always @(posedge clk or posedge rst) begin
+    if (rst)
+      current <= `reset;
+    else begin
+      case (current)
+        `reset:   current <= (x==1'b1) ? `got1   : `reset;
+        `got1:    current <= (x==1'b0) ? `got10  : `got11;
+        `got10:   current <= (x==1'b1) ? `got101 : `reset;
+        `got11:   current <= (x==1'b1) ? `got11  : `got110;
+        `got101:  current <= (x==1'b1) ? `got11  : `got10;
+        `got110:  current <= (x==1'b1) ? `got101 : `reset;
+        default:  current <= `reset;
+      endcase
+    end
+  end
+
+  // Moore output logic
+  assign z = (current == `got101 || current == `got110);
+
+endmodule
+
+// Testbench for 101 and 110 Moore sequence detector
+`timescale 1ns/100ps
+module tb_moore_detector_101_110;
+
+  reg clk, rst, x;
+  wire z;
+
+  // Instantiate DUT
+  moore_detector3 dut (
+    .x(x),
+    .rst(rst),
+    .clk(clk),
+    .z(z)
+  );
+
+  // Clock generation: 10 ns period
+  initial clk = 0;
+  always #5 clk = ~clk;
+
+  // Stimulus
+  initial begin
+    // Reset sequence
+    rst = 1; x = 0;
+    #12; 
+    rst = 0;
+
+    // Apply inputs: check both "101" and "110"
+    // Expected z=1 when "101" or "110" occurs
+    x = 1; #10;   // got1
+    x = 0; #10;   // got10
+    x = 1; #10;   // got101 -> detect "101" 
+    x = 1; #10;   // got11
+    x = 0; #10;   // got110 -> detect "110" 
+    x = 1; #10;   // got101 -> detect "101" 
+    x = 0; #10;   // got10
+    x = 1; #10;   // got101 -> detect "101" 
+    x = 0; #10;   // reset
+
+    #30;
+    $finish;
+  end
+
+  // Monitor signals
+  initial begin
+    $monitor("Time=%0t | x=%b | rst=%b | state=%0d | z=%b",
+              $time, x, rst, dut.current, z);
+  end
+
+endmodule
+```
