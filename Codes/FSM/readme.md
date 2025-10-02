@@ -180,3 +180,89 @@ module tb_moore_detector_101_110;
 
 endmodule
 ```
+---
+## 📜 Mealy 101 Detector ( overlapping allowed) 
+---
+```verilog
+`timescale 1ns/100ps
+
+module mealy_101 (
+    input x,
+    input rst,
+    input clk,
+    output z
+);
+
+    // State encoding
+    localparam [1:0] 
+        RESET  = 2'b00, // 0 0
+        GOT1   = 2'b01, // 0 1
+        GOT10  = 2'b10; // 1 0
+
+    reg [1:0] current;
+
+    // State transitions
+    always @(posedge clk) begin
+        if (rst)
+            current <= RESET;
+        else
+            case (current)
+                RESET:  current <= (x==1'b1) ? GOT1 : RESET;
+                GOT1:   current <= (x==1'b0) ? GOT10 : GOT1;
+                GOT10:  current <= (x==1'b1) ? GOT1 : RESET;
+                default: current <= RESET;
+            endcase
+    end
+
+    // Output logic (Mealy)
+    assign z = (current == GOT10 && x==1'b1) ? 1'b1 : 1'b0;
+
+endmodule
+// testbench for Mealy 101 detector
+`timescale 1ns/100ps
+
+module tb_mealy_detector2;
+
+    reg clk, rst, x;
+    wire z;
+
+    // Instantiate DUT
+    mealy_detector2 UUT (
+        .x(x),
+        .rst(rst),
+        .clk(clk),
+        .z(z)
+    );
+
+    // Clock generation
+    initial clk = 0;
+    always #5 clk = ~clk; // 10ns period
+
+    // Test stimulus
+    initial begin
+        // Initialize
+        rst = 1; x = 0;
+        #10; 
+        rst = 0;
+
+        // Apply sequence: 1 0 1 1 0 1 0 1
+        x = 1; #10;
+        x = 0; #10;
+        x = 1; #10;
+        x = 1; #10;
+        x = 0; #10;
+        x = 1; #10;
+        x = 0; #10;
+        x = 1; #10;
+
+        #20 $finish;
+    end
+
+    // Monitor signals
+    initial begin
+        $display("Time\tclk\trst\tx\tz");
+        $monitor("%0dns\t%b\t%b\t%b\t%b", $time, clk, rst, x, z);
+    end
+
+endmodule
+```
