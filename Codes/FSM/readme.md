@@ -266,3 +266,106 @@ module tb_mealy_detector2;
 
 endmodule
 ```
+---
+## 📜 Mealy 1010 Detector ( overlapping allowed) 
+---
+```verilog
+module mealy_fsm_1010 (
+    input din,
+    input clk,
+    input reset,
+    output reg y
+);
+
+reg [1:0] cst, nst;
+
+parameter S0 = 2'b00,
+          S1 = 2'b01,
+          S2 = 2'b10,
+          S3 = 2'b11;
+
+// Next state and output logic (Mealy FSM)
+always @(*) begin
+    case (cst)
+        S0: if (din) begin
+                nst = S1; y = 1'b0;
+            end else begin
+                nst = S0; y = 1'b0;
+            end
+        S1: if (~din) begin
+                nst = S2; y = 1'b0;
+            end else begin
+                nst = S1; y = 1'b0;
+            end
+        S2: if (din) begin
+                nst = S3; y = 1'b0;
+            end else begin
+                nst = S0; y = 1'b0;
+            end
+        S3: if (~din) begin
+                nst = S0; y = 1'b1;   // Output asserted on this transition
+            end else begin
+                nst = S1; y = 1'b0;
+            end
+        default: begin
+            nst = S0; y = 1'b0;
+        end
+    endcase
+end
+
+// State transition
+always @(posedge clk or posedge reset) begin
+    if (reset)
+        cst <= S0;
+    else
+        cst <= nst;
+end
+
+endmodule
+
+//----Testbench for 1010 Mealy Sequence Detector
+`timescale 1ns/1ps
+module tb_mealy_fsm_1010;
+
+reg din, clk, reset;
+wire y;
+
+// Instantiate DUT
+melfsm uut (
+    .din(din),
+    .clk(clk),
+    .reset(reset),
+    .y(y)
+);
+
+// Clock generation
+always #5 clk = ~clk;
+
+initial begin
+    // Monitor signals
+    $monitor("Time=%0t | din=%b | state=%b | y=%b", $time, din, uut.cst, y);
+
+    // Initialize
+    clk = 0;
+    reset = 1; din = 0;
+    #12 reset = 0;
+
+    // Apply input sequence to test FSM
+    // Sequence: 1 → 0 → 1 → 0 should generate y=1 at the end
+    #10 din = 1;
+    #10 din = 0;
+    #10 din = 1;
+    #10 din = 0;  // Here output y should become 1
+
+    // More random sequences
+    #10 din = 1;
+    #10 din = 1;
+    #10 din = 0;
+    #10 din = 1;
+    #10 din = 0;
+
+    #20 $finish;
+end
+
+endmodule
+```
