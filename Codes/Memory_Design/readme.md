@@ -1,4 +1,4 @@
-# Verilog Task
+# Memory Design
 ---
 ## 📜 Memory Design 
 `verilog
