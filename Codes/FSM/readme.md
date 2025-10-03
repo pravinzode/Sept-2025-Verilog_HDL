@@ -54,7 +54,7 @@ module tb_moore_detector;
     .clk(clk),
     .z(z)
   );
-   assign current=dut.current 
+   assign current=dut.current; 
   // Clock generation: 10 ns period
   initial clk = 0;
   always #5 clk = ~clk;  
