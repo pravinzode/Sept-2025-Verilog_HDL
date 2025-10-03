@@ -45,6 +45,7 @@ module tb_moore_detector;
 
   reg clk, rst, x;
   wire z;
+  wire [1:0]current;   
 
   // Instantiate the DUT (Device Under Test)
   moore_detector dut (
@@ -53,7 +54,7 @@ module tb_moore_detector;
     .clk(clk),
     .z(z)
   );
-
+   assign current=dut.current 
   // Clock generation: 10 ns period
   initial clk = 0;
   always #5 clk = ~clk;  
