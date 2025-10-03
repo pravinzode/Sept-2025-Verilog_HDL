@@ -1,5 +1,7 @@
 # Finite State Machine with Datapath (FSMD)
 ## Multiplier ( Repetative Addition ) 
+![FSMD Multiplier Architecture](images/FSMD_Multiplier_Architecture.PNG)
+
 ---
 ## 📜 Multiplier Modules 
 ```verilog
