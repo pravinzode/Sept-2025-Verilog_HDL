@@ -1,6 +1,60 @@
 # Memory Design
 
 ---
+## 📜 Memory Design (Asynchronous ROM (Read Only Memory) 4x4) 
+```verilog
+`timescale 1ns/1ps
+
+module rom4x4_async (
+    output reg [3:0] data_out,
+    input wire [1:0] address
+);
+
+    always @ (address) begin
+        case (address)
+            2'b00 : data_out = 4'b1110; // 14
+            2'b01 : data_out = 4'b0010; // 2
+            2'b10 : data_out = 4'b1111; // 15
+            2'b11 : data_out = 4'b0100; // 4
+            default: data_out = 4'bxxxx; // undefined
+        endcase
+    end
+endmodule
+// Testbench
+`timescale 1ns/1ps
+
+module tb_rom4x4_async;
+    reg [1:0] address;
+    wire [3:0] data_out;
+
+    // Instantiate DUT
+    rom4x4_async dut (
+        .data_out(data_out),
+        .address(address)
+    );
+
+    initial begin
+        // Dump waveforms
+        $dumpfile("rom4x4_async.vcd");
+        $dumpvars(0, tb_rom4x4_async);
+
+        $monitor("Time=%0t | Address=%b | Data_out=%b",
+                  $time, address, data_out);
+
+        // Test all addresses
+        address = 2'b00; #5;
+        address = 2'b01; #5;
+        address = 2'b10; #5;
+        address = 2'b11; #5;
+
+        // Try an invalid address (not used here since it's 2-bit only)
+        address = 2'bxx; #5;
+
+        $finish;
+    end
+endmodule
+```
+---
 ## 📜 Memory Design (4x4 Read/Write Asychronous) 
 ```verilog
 `timescale 1ns/1ps
