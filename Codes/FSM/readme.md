@@ -62,7 +62,7 @@ module tb_moore_detector;
   initial begin
     // Initialize
     rst = 1; x = 0;
-    #12;                // keep reset active for >1 clock
+    #10;                // keep reset active for >1 clock
     rst = 0;            // release reset
 
     // Apply input sequence: 1010101
