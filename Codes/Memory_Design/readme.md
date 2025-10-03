@@ -2,7 +2,7 @@
 
 ---
 ## 📜 Memory Design 
-`verilog
+```verilog
 `timescale 1ns/1ps
 
 module rw4x4_async (
