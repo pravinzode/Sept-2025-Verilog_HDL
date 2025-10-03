@@ -62,7 +62,7 @@ module tb_moore_detector;
   initial begin
     // Initialize
     rst = 1; x = 0;
-    #10;                // keep reset active for >1 clock
+    #8;                // keep reset active for >1 clock
     rst = 0;            // release reset
 
     // Apply input sequence: 1010101
@@ -153,7 +153,7 @@ module tb_moore_detector_101_110;
   initial begin
     // Reset sequence
     rst = 1; x = 0;
-    #12; 
+    #8; 
     rst = 0;
 
     // Apply inputs: check both "101" and "110"
@@ -348,7 +348,7 @@ initial begin
     // Initialize
     clk = 0;
     reset = 1; din = 0;
-    #12 reset = 0;
+    #8 reset = 0;
 
     // Apply input sequence to test FSM
     // Sequence: 1 → 0 → 1 → 0 should generate y=1 at the end
