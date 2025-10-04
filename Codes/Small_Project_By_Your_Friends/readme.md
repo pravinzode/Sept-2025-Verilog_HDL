@@ -427,6 +427,320 @@ endmodule
 ## 📜 Bubble Sort ( Nisarg and Shravani) 
 ```verilog
 ```
+module bubble_sort_fsmd #(
+    parameter N = 4,            // Array size
+    parameter DATA_WIDTH = 8,   // Data width
+    parameter STATE_WIDTH = 4,   // State encoding width
+    parameter [STATE_WIDTH-1:0] IDLE = 0,
+    parameter [STATE_WIDTH-1:0] RUN  = 1,
+    parameter [STATE_WIDTH-1:0] DONE = 2
+    ) (
+    input wire clk,             // Clock input
+    input wire rst,             // Active-high reset
+    input wire start,           // Start sorting
+    input wire [DATA_WIDTH-1:0] data_in,  // Input data for loading
+    input wire load,            // Load new data signal  
+    input wire [1:0] load_addr, // Address for loading data
+    output reg done,            // Sorting complete
+    output wire [DATA_WIDTH-1:0] array_0, // Array elements as individual ports
+    output wire [DATA_WIDTH-1:0] array_1,
+    output wire [DATA_WIDTH-1:0] array_2, 
+    output wire [DATA_WIDTH-1:0] array_3
+);
+
+    // State encoding
+
+    
+     reg [DATA_WIDTH-1:0] array [0:N-1];
+     
+    assign array_0 = array[0];
+    assign array_1 = array[1];
+    assign array_2 = array[2];
+    assign array_3 = array[3];
+
+    // Registers
+    reg [STATE_WIDTH-1:0] state;
+    reg [1:0] i, j; // Loop indices
+    reg swapped;     // Optimization: detect early completion
+
+    // Synthesizable array initialization and loading
+    integer k;
+    always @(posedge clk or posedge rst) begin
+        if (rst) begin
+            // Initialize array to known values on reset
+            for (k = 0; k < N; k = k + 1) begin
+                array[k] <= {DATA_WIDTH{1'b0}}; // Or other default values
+            end
+            state <= IDLE;
+            done <= 0;
+            i <= 0;
+            j <= 0;
+            swapped <= 0;
+        end else begin
+            // Data loading functionality
+            if (load) begin
+                array[load_addr] <= data_in;
+            end
+            
+            // Main state machine
+            case (state)
+                IDLE: begin
+                    done <= 0;
+                    swapped <= 0;
+                    if (start) begin
+                        i <= 0;
+                        j <= 0;
+                        state <= RUN;
+                    end
+                end
+                
+                RUN: begin
+                    if (j < N-1-i) begin
+                        // Compare and swap using only non-blocking assignments
+                        if (array[j] > array[j+1]) begin
+                            // Swap elements - all non-blocking for synthesis
+                            array[j] <= array[j+1];
+                            array[j+1] <= array[j];
+                            swapped <= 1;
+                        end
+                        j <= j + 1;
+                    end else begin
+                        // End of inner loop
+                        if (i < N-2 && swapped) begin
+                            i <= i + 1;
+                            j <= 0;
+                            swapped <= 0; // Reset for next pass
+                        end else begin
+                            // Sorting complete (either finished or no swaps occurred)
+                            done <= 1;
+                            state <= DONE;
+                        end
+                    end
+                end
+                
+                DONE: begin
+                    done <= 1;
+                    // Wait for reset or new start
+                    if (start) begin
+                        state <= IDLE;
+                    end
+                end
+                
+                default: state <= IDLE;
+            endcase
+        end
+    end
+
+endmodule
+// Testbench 
+module bubble_sort_fsmd_tb;
+
+    // Parameters
+    parameter CLK_PERIOD = 10;
+    parameter N = 4;
+    parameter DATA_WIDTH = 8;
+
+    // Testbench Signals
+    reg clk;
+    reg rst;
+    reg start;
+    reg [DATA_WIDTH-1:0] data_in;
+    reg load;
+    reg [1:0] load_addr;
+    wire done;
+    wire [DATA_WIDTH-1:0] array_0, array_1, array_2, array_3;
+    
+    // Internal array for verification
+    reg [DATA_WIDTH-1:0] expected_array_0, expected_array_1, expected_array_2, expected_array_3;
+
+    // Instantiate DUT
+    bubble_sort_fsmd dut (
+        .clk(clk),
+        .rst(rst),
+        .start(start),
+        .data_in(data_in),
+        .load(load),
+        .load_addr(load_addr),
+        .done(done),
+        .array_0(array_0),
+        .array_1(array_1),
+        .array_2(array_2),
+        .array_3(array_3)
+    );
+
+    // Clock generation
+    initial begin
+        clk = 0;
+        forever #(CLK_PERIOD/2) clk = ~clk;
+    end
+
+    // Main test sequence
+    initial begin
+        // Initialize
+        rst = 1;
+        start = 0;
+        load = 0;
+        data_in = 0;
+        load_addr = 0;
+        
+        // Reset
+        #(CLK_PERIOD * 2);
+        rst = 0;
+        #(CLK_PERIOD * 2);
+        
+        // Test Case 1: Basic sorting
+        $display("=== Test Case 1: Basic Sorting ===");
+        
+        // Load array [64, 34, 25, 12]
+        load_element(0, 8'd64);
+        load_element(1, 8'd34);
+        load_element(2, 8'd25);
+        load_element(3, 8'd12);
+        
+        // Set expected result [12, 25, 34, 64]
+        expected_array_0 = 8'd12;
+        expected_array_1 = 8'd25;
+        expected_array_2 = 8'd34;
+        expected_array_3 = 8'd64;
+        
+        start_sort();
+        verify_sorted_array();
+        
+        #(CLK_PERIOD * 5);
+        
+        // Test Case 2: Already sorted
+        $display("=== Test Case 2: Already Sorted Array ===");
+        
+        load_element(0, 8'd10);
+        load_element(1, 8'd20);
+        load_element(2, 8'd30);
+        load_element(3, 8'd40);
+        
+        expected_array_0 = 8'd10;
+        expected_array_1 = 8'd20;
+        expected_array_2 = 8'd30;
+        expected_array_3 = 8'd40;
+        
+        start_sort();
+        verify_sorted_array();
+        
+        // Test Case 3: Reverse sorted
+        $display("=== Test Case 3: Reverse Sorted Array ===");
+        
+        load_element(0, 8'd40);
+        load_element(1, 8'd30);
+        load_element(2, 8'd20);
+        load_element(3, 8'd10);
+        
+        expected_array_0 = 8'd10;
+        expected_array_1 = 8'd20;
+        expected_array_2 = 8'd30;
+        expected_array_3 = 8'd40;
+        
+        start_sort();
+        verify_sorted_array();
+        
+        $display("=== ALL TESTS PASSED ===");
+        $finish;
+    end
+
+    // Task to load a single element
+    task load_element;
+        input [1:0] addr;
+        input [DATA_WIDTH-1:0] data;
+        begin
+            @(posedge clk);
+            load_addr = addr;
+            data_in = data;
+            load = 1;
+            @(posedge clk);
+            load = 0;
+            #(CLK_PERIOD);
+        end
+    endtask
+
+    // Task to start sorting process
+    task start_sort;
+        begin
+            $display("Starting sort operation...");
+            @(posedge clk);
+            start = 1;
+            @(posedge clk);
+            start = 0;
+            
+            // Wait for completion
+            wait_for_done();
+            
+            #(CLK_PERIOD * 2);
+        end
+    endtask
+
+    // Wait for done signal with timeout
+    task wait_for_done;
+        integer timeout;
+        begin
+            timeout = 0;
+            while (done === 1'b0 && timeout < 100) begin
+                @(posedge clk);
+                timeout = timeout + 1;
+            end
+            
+            if (timeout >= 100) begin
+                $display("ERROR: Sort operation timed out!");
+                $finish;
+            end else begin
+                $display("Sort completed in %0d cycles", timeout);
+            end
+        end
+    endtask
+
+    // Task to verify sorted array
+    task verify_sorted_array;
+        begin
+            @(posedge clk);
+            
+            $display("Expected: [%0d, %0d, %0d, %0d]", 
+                     expected_array_0, expected_array_1, expected_array_2, expected_array_3);
+            $display("Received: [%0d, %0d, %0d, %0d]", array_0, array_1, array_2, array_3);
+            
+            // Verify each element
+            if (array_0 !== expected_array_0 || 
+                array_1 !== expected_array_1 || 
+                array_2 !== expected_array_2 || 
+                array_3 !== expected_array_3) begin
+                $display("ERROR: Array sorting failed!");
+                $finish;
+            end else begin
+                $display("PASS: Array correctly sorted");
+            end
+            
+            // Check if array is in ascending order
+            if (array_0 > array_1 || array_1 > array_2 || array_2 > array_3) begin
+                $display("ERROR: Array is not in ascending order!");
+                $finish;
+            end
+            
+            $display("");
+        end
+    endtask
+
+    // Monitor to track simulation progress
+    always @(posedge clk) begin
+        if (start === 1'b1) begin
+            $display("Time %0t: Sort started", $time);
+        end
+        if (done === 1'b1) begin
+            $display("Time %0t: Sort completed", $time);
+        end
+    end
+
+    // Waveform dumping
+    initial begin
+        $dumpfile("bubble_sort_fsmd_tb.vcd");
+        $dumpvars(0, bubble_sort_fsmd_tb);
+    end
+
+endmodule
 
 ---
 ## 📜 Parametrized Barrel Shifter ( Vamshi) 
