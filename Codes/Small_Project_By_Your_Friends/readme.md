@@ -741,7 +741,7 @@ module bubble_sort_fsmd_tb;
     end
 
 endmodule
-
+```
 ---
 ## 📜 Parametrized Barrel Shifter ( Vamshi) 
 ```verilog
