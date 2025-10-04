@@ -420,8 +420,46 @@ end
 always #5 clk = ~clk;
 //lways #15 rst = ~rst;
 
-
 endmodule
 ```
 
+---
+## 📜 Bubble Sort ( Nisarg and Shravani) 
+```verilog
+```
+
+---
+## 📜 Parametrized Barrel Shifter ( Vamshi) 
+```verilog
+`timescale 1ns / 1ps
+
+module mux2x1(y, a, b, s);
+    output y;
+    input a, b, s;
+    assign y = s ? b: a;
+endmodule
+//Barrel shift left
+module BarrelShifter#(parameter width = 16,
+select = $clog2(width))(
+output [width-1:0]y,
+input [select-1:0]s,
+input [width -1:0]w
+    );
+    wire [width - 1:0] L[select - 1 : 0];
+   genvar b, i, j;
+   generate 
+      for (b = 0; b <= width - 1; b = b + 1) begin : G1
+         mux2x1 s2(L[0][b], w[b], w[(b+(2**(select-1)))%width], s[select-1]);
+      end
+   
+     for( j = 0; j < select-1; j = j+1)begin : Upper
+         for (i = 0; i < width; i = i + 1) begin : Lower   
+            mux2x1 s1(L[j+1][i], L[j][i], L[j][(i+(2**(select -j-2)))%width], s[select -j-2]);
+         end
+    end
+    assign y = L[select-1];
+   endgenerate
+         
+endmodule
+```
 
