@@ -426,7 +426,6 @@ endmodule
 ---
 ## 📜 Bubble Sort ( Nisarg and Shravani) 
 ```verilog
-```
 module bubble_sort_fsmd #(
     parameter N = 4,            // Array size
     parameter DATA_WIDTH = 8,   // Data width
@@ -740,7 +739,7 @@ module bubble_sort_fsmd_tb;
         $dumpvars(0, bubble_sort_fsmd_tb);
     end
 endmodule
-
+```
 ---
 ## 📜 Parametrized Barrel Shifter ( Vamshi) 
 ```verilog
