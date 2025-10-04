@@ -739,9 +739,8 @@ module bubble_sort_fsmd_tb;
         $dumpfile("bubble_sort_fsmd_tb.vcd");
         $dumpvars(0, bubble_sort_fsmd_tb);
     end
-
 endmodule
-```
+
 ---
 ## 📜 Parametrized Barrel Shifter ( Vamshi) 
 ```verilog
