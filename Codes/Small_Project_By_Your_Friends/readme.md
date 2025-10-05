@@ -774,4 +774,220 @@ input [width -1:0]w
          
 endmodule
 ```
+---
+## 📜 GCD Calculator ( Manik and Madhav) 
+```verilog
+module binary_gcd_8bit (
+    input clk, reset, start,
+    input [7:0] a_in, b_in,
+    output reg [7:0] gcd_out,
+    output reg done
+);
 
+    reg [7:0] A;
+    reg [7:0] B;
+    reg [3:0] shift_count;
+    reg working;
+    
+    reg even_A_r;
+    reg even_B_r;
+
+    always @* begin
+        even_A_r = (A[0] == 1'b0);
+        even_B_r = (B[0] == 1'b0);
+    end
+
+always @(posedge clk) begin
+    if (reset) 
+    begin
+        A <= 8'h00;
+        B <= 8'h00;
+        shift_count <= 4'h0;
+        gcd_out <= 8'h00;
+        done <= 1'b0;
+        working <= 1'b0;
+    end 
+    else if (start && !working) 
+    begin
+        A <= a_in;
+        B <= b_in;
+        shift_count <= 4'h0;
+        gcd_out <= 8'h00;
+        done <= 1'b0;
+        if (a_in == 8'h00) 
+        begin
+            gcd_out <= b_in;
+            done <= 1'b1;
+        end 
+        else if (b_in == 8'h00) 
+        begin
+            gcd_out <= a_in;
+            done <= 1'b1;
+        end 
+        else 
+        begin
+            working <= 1'b1;
+        end
+    end 
+    else if (working) 
+    begin
+        if (A == 8'h00) 
+        begin
+            gcd_out <= B << shift_count;
+            done <= 1'b1;
+            working <= 1'b0;
+        end 
+        else if (B == 8'h00) 
+        begin
+            gcd_out <= A << shift_count;
+            done <= 1'b1;
+            working <= 1'b0;
+        end 
+        else if (A == B) 
+        begin
+            gcd_out <= A << shift_count;
+            done <= 1'b1;
+            working <= 1'b0;
+        end 
+        else 
+        begin
+            if (even_A_r && even_B_r) 
+            begin
+                A <= A >> 1;
+                B <= B >> 1;
+                shift_count <= shift_count + 1'b1;
+            end 
+            else if (even_A_r) 
+            begin
+                A <= A >> 1;
+            end 
+            else if (even_B_r) 
+            begin
+                B <= B >> 1;
+            end 
+            else 
+            begin
+                if (A > B) 
+                begin
+                    A <= (A - B) >> 1;
+                end 
+                else 
+                begin 
+                    B <= (B - A) >> 1;
+                end
+            end
+        end
+    end
+end
+
+endmodule
+// Testbench for above module
+
+`timescale 1ns / 1ps
+
+module binary_gcd_8bit_tb;
+
+    localparam CLK_PERIOD = 10;
+
+    reg clk;
+    reg reset;
+    reg start;
+    reg [7:0] a_in;
+    reg [7:0] b_in;
+    wire [7:0] gcd_out;
+    wire done;
+
+    binary_gcd_8bit uut (
+        .clk(clk),
+        .reset(reset),
+        .start(start),
+        .a_in(a_in),
+        .b_in(b_in),
+        .gcd_out(gcd_out),
+        .done(done)
+    );
+
+    initial begin
+        clk = 1'b0;
+        forever #(CLK_PERIOD/2) clk = ~clk;
+    end
+
+    initial begin
+        $dumpfile("binary_gcd_8bit.vcd");
+        $dumpvars(0, binary_gcd_8bit_tb);
+
+        reset = 1'b1;
+        start = 1'b0;
+        a_in = 8'h00;
+        b_in = 8'h00;
+        #(CLK_PERIOD * 2) reset = 1'b0;
+
+        a_in = 8'd60;
+        b_in = 8'd24;
+        start = 1'b1;
+        #(CLK_PERIOD) start = 1'b0;
+
+        wait(done) #1;
+        if (gcd_out === 8'd12) begin
+            $display("Test Case 1 (GCD(60, 24) = 12) PASSED. Result: %d", gcd_out);
+        end else begin
+            $display("Test Case 1 (GCD(60, 24) = 12) FAILED. Expected 12, got: %d", gcd_out);
+        end
+        
+        #(CLK_PERIOD * 2);
+        a_in = 8'd105;
+        b_in = 8'd30;
+        start = 1'b1;
+        #(CLK_PERIOD) start = 1'b0;
+
+        wait(done) #1;
+        if (gcd_out === 8'd15) begin
+            $display("Test Case 2 (GCD(105, 30) = 15) PASSED. Result: %d", gcd_out);
+        end else begin
+            $display("Test Case 2 (GCD(105, 30) = 15) FAILED. Expected 15, got: %d", gcd_out);
+        end
+
+        #(CLK_PERIOD * 2);
+        a_in = 8'h00;
+        b_in = 8'd50;
+        start = 1'b1;
+        #(CLK_PERIOD) start = 1'b0;
+        
+        wait(done) #1;
+        if (gcd_out === 8'd50) begin
+            $display("Test Case 3 (GCD(0, 50) = 50) PASSED. Result: %d", gcd_out);
+        end else begin
+            $display("Test Case 3 (GCD(0, 50) = 50) FAILED. Expected 50, got: %d", gcd_out);
+        end
+
+        #(CLK_PERIOD * 2);
+        a_in = 8'd8;
+        b_in = 8'd8;
+        start = 1'b1;
+        #(CLK_PERIOD) start = 1'b0;
+        
+        wait(done) #1;
+        if (gcd_out === 8'd8) begin
+            $display("Test Case 4 (GCD(8, 8) = 8) PASSED. Result: %d", gcd_out);
+        end else begin
+            $display("Test Case 4 (GCD(8, 8) = 8) FAILED. Expected 8, got: %d", gcd_out);
+        end
+
+        #(CLK_PERIOD * 2);
+        a_in = 8'd17;
+        b_in = 8'd14;
+        start = 1'b1;
+        #(CLK_PERIOD) start = 1'b0;
+        
+        wait(done) #1;
+        if (gcd_out === 8'd1) begin
+            $display("Test Case 5 (GCD(17, 14) = 1) PASSED. Result: %d", gcd_out);
+        end else begin
+            $display("Test Case 5 (GCD(17, 14) = 1) FAILED. Expected 1, got: %d", gcd_out);
+        end
+
+        #(CLK_PERIOD * 10) $finish;
+    end
+
+endmodule
+```
